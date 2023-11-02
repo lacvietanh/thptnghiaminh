@@ -33,6 +33,10 @@ Latest updated: 2023.10.18
  2023.10.27:
   + Write comment for UI.makeCheck and UI.fieldCheck
   + Add UI.initFooter: dynamic load footer like navbar
+ 2023.11.02:
+  + Login FrontEnd done // use modal.load(login.html) and Auth.login()
+  + Remove Accents for "UserName or Email Login Field" before Post
+  + Fix akiFn to class, fix akiFn.latinify
 */
 
 function $id(id) { return document.getElementById(id); }
@@ -61,7 +65,7 @@ function Fetch($url, $element) {
       console.log('Failed to fetch page: ', err);
     });
 }
-akiFn = class {
+class akiFn {
   static newCompactWindow(u = location.href, w = 500, h = 309) {
     window.open(u, "_blank", `
     menubar=no,scrollbars=yes,location=no,toolbar=no,width=${w},height=${h}
@@ -85,7 +89,7 @@ akiFn = class {
     } return x;
   }
   static latinity(str) {
-    y = removeAccents(str).toLowerCase()
+    var y = akiFn.removeAccents(str).toLowerCase()
       .replace(/[^a-z0-9\-]/g, ' ')
       .replace(/-+/g, ' ').trim();
     return y;
@@ -99,6 +103,20 @@ akiFn = class {
         return acc;
       }, {});
   }
+}
+function removeAccents(x) {
+  var from = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçỳýỷỹỵ",
+    to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
+  for (var i = 0, l = from.length; i < l; i++) {
+    x = x.replace(RegExp(from[i], "gi"), to[i]);
+  }
+  return x;
+}
+function latinConvert(str) {
+  y = removeAccents(str).toLowerCase().trim()
+    .replace(/[^a-z0-9\-]/g, '_')
+    .replace(/-+/g, '_');
+  return y;
 }
 class loader {
   //<element class="fetchme" data-url="$url" data-s="$second" data-inf="$second|0">
@@ -636,8 +654,9 @@ const Auth = {
   login: () => {
     let f = $id('loginForm') || null
     if (f) {
-      let uname = f.querySelector('input[name=emailOrUname]').value
-      console.log(uname);
+      let UoE = f.querySelector('input[name=emailOrUname]')
+      UoE.value = removeAccents(UoE.value).replaceAll(/[^A-Za-z0-9.@]/g, '')
+      let uname = UoE.value
       let pass = f.querySelector('input[name=password]').value
       let data = new FormData();
       data.append("action", 'login');

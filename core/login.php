@@ -1,15 +1,5 @@
 <?php
-// DEMO: 
-$userlist = [
-  'lacvietanh' => [
-    'fname' => 'Lạc Việt Anh'
-  ],
-  'lacquocviet' => [
-    'fname' => 'Lạc Quốc Việt'
-  ]
-];
-// START:
-$username = preg_replace("/[^A-Za-z0-9.]/", '', $_POST['username']);
+$username = preg_replace("/[^A-Za-z0-9.@]/", '', $_POST['username']);
 $password = md5($_POST['password']);
 $USER['debug']
   = "POST action 'login' called!\nUsername: $username\nPassword: $password\n";

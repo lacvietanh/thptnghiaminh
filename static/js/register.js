@@ -1,17 +1,3 @@
-function removeAccents(x) {
-  var from = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçỳýỷỹỵ",
-    to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
-  for (var i = 0, l = from.length; i < l; i++) {
-    x = x.replace(RegExp(from[i], "gi"), to[i]);
-  }
-  return x;
-}
-function latinConvert(str) {
-  y = removeAccents(str).toLowerCase().trim()
-    .replace(/[^a-z0-9\-]/g, '_')
-    .replace(/-+/g, '_');
-  return y;
-}
 const INPUT_username = $qs('input[name=username]')
 const INPUT_pw = $qs('input[name=password]')
 const INPUT_pw2 = $qs('input[name=password2]')
@@ -20,7 +6,7 @@ const INPUT_email = $qs('input[name=ema]')
 // FUNCTION CHECK :
 const check_uname = async () => {
   let e = INPUT_username
-  e.value = removeAccents(e.value).replaceAll(/[^A-Za-z0-9.]/g, '')
+  e.value = akiFn.removeAccents(e.value).replaceAll(/[^A-Za-z0-9.]/g, '')
   if (e.value.length < 3) {
     noti.add('Username tối thiểu 3 ký tự, chỉ cho phép chữ hoa, chữ thường, số, dấm chấm.')
     return UI.fieldCheck(e, 0)
