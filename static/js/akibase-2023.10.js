@@ -660,7 +660,7 @@ const Auth = {
       let pass = f.querySelector('input[name=password]').value
       let data = new FormData();
       data.append("action", 'login');
-      data.append("username", uname);
+      data.append("emailOrUname", uname);
       data.append("password", pass);
       fetch(APIURL, { method: "POST", body: data })
         .then(r => r.json())
@@ -668,13 +668,11 @@ const Auth = {
           // console.log(j); // DEB
           // console.log('j.debug:', j.debug, 'j.logged:', j.logged) // DEB
           if (j.logged) {
-            // noti.add('LOGIN SUCCESSFULLY!', 3, 'success')
-            noti.add('Đăng nhập thành công!', 3, 'success')
+            noti.add(`Đăng nhập thành công!<br>${j.MESS}`, 3, 'success')
             Auth.init()
             modal.close()
           } else {
-            noti.add('Đăng nhập thất bại! Hãy kiểm tra lại tài khoản và mật khẩu!', 3, 'danger')
-            // noti.add('LOGIN FAILED! Please check Username and Password!', 3, 'danger')
+            noti.add(`${j.MESS}`, 3, 'danger')
           }
         })
     } else {
