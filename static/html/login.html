@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Primary Meta Tags -->
+  <title>Đăng nhập | THPT Nghĩa Minh - Nam Định </title>
+  <meta name="title" content="THPT Nghĩa Minh - Nam Định">
+  <meta name="description" content="Website trường THPT Nghĩa Minh - Nghĩa Hưng - Nam Định">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Đăng nhập | THPT Nghĩa Minh - Nam Định">
+  <meta property="og:description" content="Đăng nhập | Trường THPT Nghĩa Minh - Nghĩa Hưng - Nam Định">
+  <!-- <meta property="og:url" content=""> -->
+  <!-- <meta property="og:image" content=""> -->
+
+
+  <!-- CSS LIBRARY  -->
+  <link rel="stylesheet" href="/static/css/bulma.min.css">
+  <link rel="stylesheet" href="/static/css/FA-611-Free.min.css">
+  <!-- Google tag (gtag.js) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWFKF0G847"></script> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    // gtag('js', new Date());  gtag('config', 'G-KWFKF0G847');
+  </script>
+  <!-- platform  -->
+  <script src="/static/js/AkiPlatform.js" async></script>
+  <!-- AKIBASE  -->
+  <link rel="stylesheet" type="text/css" href="/static/css/akibase-2023.10.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <script src="/static/js/akibase-2023.10.js?r=0"></script>
+  <script src="/static/js/main.js"></script>
+  <!-- <script src="/static/js/sorttable.js"></script> -->
+  <script src="/static/js/register.js" defer></script>
+</head>
+
+<body class="has-navbar-fixed-top has-background-grey is-justify-content-center">
+
+  <div id="MAIN_PRELOAD">
+    <div class="preloader"></div>
+  </div>
+  <!-- NOTIFICATION -->
+  <div id="NOTI_AREA" class="container"></div>
+  <!-- MODAL  -->
+  <div id="MainModal" class="modal"></div>
+  <!-- HEADPAGE  -->
+  <section id="HEADPAGE" class="hero is-small is-dark">
+    <div class="hero-body p-3">
+      <div class="container has-text-centered">
+        <h1 class="title has-text-weight-semi-bold has-text-grey-lighter">
+          Đăng ký thành viên website
+        </h1>
+        <h2 class="subtitle is-size-6	has-text-grey-light">
+          Thư viện số Trường THPT Nghĩa Minh - Nam Định
+        </h2>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- REGISTER FORM  -->
+  <section id=registerSection class="section m-auto p-3">
+    <form id="registerForm" enctype="multipart/form-data" class="box p-4"
+      onkeydown="return event.key != 'Enter';" method="post" onsubmit="postRegister(this);return false;">
+      <p class="help has-text-centered mb-2">Những chỗ màu đỏ là bắt buộc.</p>
+      <div class="field is-horizontal">
+        <div class="field-label">
+          <label class="label mb-0">Thông tin tài khoản:</label>
+          <p class="help mt-0">Tên đăng nhập của bạn</p>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <p class="control is-expanded has-icons-left has-icons-right">
+              <input name="username" class="input is-danger" type="text" placeholder="UserName" minlength="3" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left has-icons-right">
+              <input name="password" class="input is-danger" type="password" placeholder="Mật khẩu đăng nhập" required minlength="6">
+              <span class="icon is-small is-left">
+                <i class="fa-solid fa-key"></i>
+              </span>
+            </p>
+            <p class="help">
+              <span class="cond1">Mật khẩu tối thiểu 6 ký tự</span>
+              <br>
+              <span class="cond2">Chỉ dùng chữ latin hoa/thường, số, dấu chấm</span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left has-icons-right">
+              <input name="password2" class="input is-danger" type="password" placeholder="Xác nhận lại mật khẩu" required minlength="6">
+              <span class="icon is-small is-left">
+                <i class="fa-solid fa-key"></i>
+              </span>
+            </p>
+            <p class="help">Nhập lại mật khẩu</p>
+          </div>
+        </div>
+      </div>
+      <!-- Email & Phone  -->
+      <div class="field is-horizontal is-align-items-center">
+        <div class="field-label">
+          <label class="label mb-0">Tên | Email | SĐT </label>
+          <p class="help mt-0">Để liên lạc và xác thực:</p>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <p class="control is-expanded has-icons-left">
+              <input name="fullname" class="input" type="text" placeholder="Tên đầy đủ" minlength="3" maxlength="50">
+              <span class="icon is-small is-left">
+                <i class="fa-solid fa-id-card-clip"></i>
+              </span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control has-icons-left">
+              <!-- FAKE EMAIL FIELD, PREVENT BOT SPAM  -->
+              <input name="email" class="input is-hidden" type="email" placeholder="Email" autocomplete="off">
+              <input name="ema" class="input is-danger" type="email" placeholder="Email" value="" required="">
+              <span class="icon is-small is-left"> <i class="fas fa-envelope"></i> </span>
+            </p>
+            <p class="help"> </p>
+          </div>
+          <div class="field">
+            <div class="field has-addons">
+              <p class="control has-icons-left is-expanded">
+                <input name="phone" class="input" type="tel" placeholder="Số điện thoại">
+                <span class="icon is-small is-left">
+                  <i class="fa-solid fa-mobile-screen-button"></i>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FBID & SSID & IP  -->
+      <div class="field is-horizontal is-align-items-center">
+        <div class="field-label">
+          <label class="help"> Facebook ID/username: </label>
+        </div>
+        <div class="field-body is-align-items-center">
+          <div class="field is-narrow mb-0">
+            <div class="field has-addons">
+              <p class="control">
+                <a class="button is-static px-2 is-small">fb.com/</a>
+              </p>
+              <p class="control is-expanded">
+                <input name="fbid" type="text" class="input is-small" placeholder="Để tiện liên lạc hơn khi cần">
+              </p>
+            </div>
+          </div>
+          <p class="help mt-0">Ví dụ: <a href="https://fb.com/lacvietanh" target="_blank">fb.com/<b>lacvietanh</b></a>
+          </p>
+        </div>
+      </div>
+      <!-- Email & Phone  -->
+      <div class="field is-horizontal is-align-items-center">
+        <div class="field-label">
+          <label class="label mb-0">Thông tin bổ sung </label>
+          <p class="help mt-0">Bạn có thể cập nhật sau</p>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <p class="control has-icons-left">
+              <input name="birthday" class="input" type="date" placeholder="Ngày tháng năm sinh">
+              <span class="icon is-small is-left"> <i class="fas fa-envelope"></i> </span>
+            </p>
+          </div>
+          <div class="field">
+            <div class="field has-addons">
+              <p class="control has-icons-left is-expanded">
+                <input name="classroom" class="input" type="text" maxlength="4" placeholder="Lớp (ví dụ: 12A5)">
+                <span class="icon is-small is-left">
+                  <i class="fa-solid fa-people-roof"></i>
+                </span>
+              </p>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field has-addons">
+              <p class="control has-icons-left is-expanded">
+                <input name="address" class="input" type="text" placeholder="Địa chỉ">
+                <span class="icon is-small is-left">
+                  <i class="fa-solid fa-map-location-dot"></i>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- địa chỉ - lớp  -->
+      <div class="is-flex is-justify-content-center mt-4 mb-2">
+        <button type="submit" class="button is-success is-large">Đăng ký</button>
+      </div>
+
+    </form>
+  </section>
+
+</body>
+
+</html>

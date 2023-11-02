@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Primary Meta Tags -->
+  <title>THPT Nghĩa Minh - Nam Định | Thư viện</title>
+  <meta name="title" content="THPT Nghĩa Minh - Nam Định">
+  <meta name="description" content="Website trường THPT Nghĩa Minh - Nghĩa Hưng - Nam Định">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Thư viện | THPT Nghĩa Minh - Nam Định">
+  <meta property="og:description" content="Thư viện số | Trường THPT Nghĩa Minh - Nghĩa Hưng - Nam Định">
+  <!-- <meta property="og:url" content=""> -->
+  <!-- <meta property="og:image" content=""> -->
+
+
+  <!-- CSS LIBRARY  -->
+  <link rel="stylesheet" href="/static/css/bulma.min.css">
+  <link rel="stylesheet" href="/static/css/FA-611-Free.min.css">
+  <!-- Google tag (gtag.js) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWFKF0G847"></script> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    // gtag('js', new Date());  gtag('config', 'G-KWFKF0G847');
+  </script>
+  <!-- platform  -->
+  <script src="/static/js/AkiPlatform.js" async></script>
+  <!-- AKIBASE  -->
+  <link rel="stylesheet" type="text/css" href="/static/css/akibase-2023.10.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  <script src="/static/js/akibase-2023.10.js"></script>
+  <script src="/static/js/main.js"></script>
+  <script src="/static/js/sorttable.js"></script>
+  <script src="/static/js/library.js" defer></script>
+</head>
+
+<body class="has-navbar-fixed-top has-background-light">
+
+  <div id="MAIN_PRELOAD">
+    <div class="preloader"></div>
+  </div>
+  <!-- NOTIFICATION -->
+  <div id="NOTI_AREA" class="container"></div>
+  <!-- MODAL  -->
+  <div id="MainModal" class="modal"></div>
+  <!-- HEADPAGE  -->
+  <section id="HEADPAGE" class="hero is-small is-dark">
+    <div class="hero-body p-3">
+      <div class="container has-text-centered">
+        <h1 class="title has-text-weight-semi-bold has-text-grey-lighter">
+          Trường THPT Nghĩa Minh
+        </h1>
+        <h2 class="subtitle is-size-6	has-text-grey-light">
+          Thư viện số Trường THPT Nghĩa Minh - Nam Định
+        </h2>
+      </div>
+    </div>
+  </section>
+</body>
+
+<section class="TAB mb-1" id="tabs-library">
+  <!-- TAB1 HEAD  -->
+  <div class="TabHead has-background-dark pt-2">
+    <div class="tabs is-dark is-centered is-boxed has-text-black">
+      <ul>
+        <li id="Find" data-name="Tìm kiếm" data-icon="fa-brands fa-searchengin fa-lg"> </li>
+        <li id="Manage" data-name="Quản lý" data-icon="fa-solid fa-file-pen"> </li>
+        <li id="Terms" data-name="Nội Quy Thư Viện" data-icon="fa-solid fa-triangle-exclamation"> </li>
+      </ul>
+    </div>
+  </div>
+  <!-- TAB1 BODY  -->
+  <div class="TabBody pt-4 pb-4 has-background-white">
+    <div id="Find-body" class="is-hidden container">
+      <!-- search  -->
+      <div class="field has-addons has-icons-right">
+        <p class="control is-expanded">
+          <input class="input is-medium" type="search" placeholder="Tìm kiếm tên sách">
+        </p>
+        <p class="control">
+          <button class="button is-medium is-warning">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </p>
+      </div>
+      <!-- search options -->
+      <div class="field has-addons">
+        <p class="control">
+          <a class="button is-static is-small">Thể loại sách</a>
+        </p>
+        <p class="control">
+        <div class="select is-small">
+          <select>
+            <option>Tất cả</option>
+            <option>Sách Giáo Khoa</option>
+            <option>Sách Tham Khảo</option>
+            <option>Sách Nghiệp Vụ</option>
+          </select>
+        </div>
+        </p>
+      </div>
+      <!-- end search option -->
+      <div class="content">
+        <div class="table-container limitHeight mb-0" style="max-height: 500px;">
+          <table id="LibraryTable"
+            class="table sortable is-fullwidth is-narrow is-hoverable is-size-7">
+            <thead class="has-background-warning">
+              <tr>
+                <th>STT</th>
+                <th>ID sách</th>
+                <th style="min-width: 4em;">Tên Sách</th>
+                <th>Thể loại</th>
+                <th>Tổng SL</th>
+                <th>Sẵn có</th>
+                <th>Đơn giá</th>
+                <th>Ảnh bìa sách</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td>A001</td>
+                <td>Vật Lý 10</td>
+                <td>Sách Giáo Khoa</td>
+                <td>35</td>
+                <td>24</td>
+                <td>70.000đ</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>002</td>
+                <td>B001</td>
+                <td>Lý Thuyết Vạn Vật</td>
+                <td>Sách Tham Khảo</td>
+                <td>2</td>
+                <td>2</td>
+                <td>55.000đ</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="Manage-body" class="is-hidden container">
+      <h3 class="title">Quản lý Thư viện</h3>
+      <p class="subtitle">Xin chào <em><span class="username">USERNAME</span></em>
+        <br>Tài khoản của bạn chưa được cấp quyền quản lý thư viện.
+      </p>
+      <div class="content">
+        <div class="container box" style="height: 300px;"></div>
+
+      </div>
+    </div>
+    <div id="Terms-body" class="is-hidden container">
+      <div class="content">
+        <h1 class="title">NỘI QUY PHÒNG THƯ VIỆN</h1>
+        <div class="container content box">
+          <blockquote>
+            Thời gian mở cửa: Thư viện mở cửa từ <b>thứ hai đến thứ 7 hàng tuần</b> <br>
+            Buổi sáng: <b>Từ 7h đến 11h</b> <br>
+            Buổi chiều: <b>Từ 14h đến 17h</b> <br>
+          </blockquote>
+          Tất cả các cán bộ, giáo viên, nhân viên và học sinh đến đọc sách, nghiên cứu, học tập tại thư viện phải tuân thủ nội quy nhà trường và chú ý một số những quy định sau đây:
+          <h4>I. Đối với cán bộ giáo viên, nhân viên và học sinh:</h4>
+          <ul>
+            <li>
+              Điều 1: Sách, báo trong thư viện là tài sản chung của nhà trường, Mọi cán bộ, giáo viên, học sinh, đều có quyền sử dụng
+              và có trách nhiệm xây dựng thư viện ngày một tốt hơn.
+            </li>
+            <li>Điều 2: Sách, báo trong thư viện phải được sắp xếp khoa học để giới thiệu và phục vụ kịp thời nhu cầu của bạn đọc.</li>
+            <li>
+              Điều 3: Lịch làm việc của trường trong tuần: <br>
+              - Thứ 2, 4, 5, 6, 7: phục vụ bạn đọc. <br>
+              - Thứ 3 tu bổ sách, báo và làm nghiệp vụ.
+            </li>
+            <li>Điều 4: Bạn đọc đến thư viện phải trật tự, giữ gìn vệ sinh chung, mượn sách đúng kỳ hạn và theo sự hướng dẫn của cán bộ Thư viện</li>
+            <li>
+              Điều 5: Một số sách bạn đọc có thể mượn về nhà. Thời hạn: <br>
+              - Sách giáo khoa, sách nghiệp vụ: Mượn trong năm <br>
+              - Sách tham khảo: 6 ngày
+            </li>
+            <li>Điều 6: Bạn đọc cần giữ gìn sách, báo cẩn thận, không được làm nhàu nát hoặc viết vẽ vào sách. Nếu làm hư nát, mất sẽ phải bồi thường với giá trị từ 1 đến 3 lần.</li>
+          </ul>
+
+          <i>Nghĩa Hưng, ngày 01 tháng 8 năm 2023</i>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</html>

@@ -1,0 +1,121 @@
+<nav class="navbar is-fixed-top is-success">
+  <div class="navbar-brand">
+    <a class="navbar-item icon-text" href="/">
+      <span class="icon"><i class="fa-solid fa-house"></i></span>
+      <span>Trang chủ</span>
+    </a>
+    <div class="navbar-burger" data-target="MainNavMobile">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  <div id="MainNavMobile" class="navbar-menu">
+    <div class="navbar-start">
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <span class="icon"><i class="fa-solid fa-circle-info"></i></span>
+          <span> Giới thiệu</span>
+        </a>
+        <div class="navbar-dropdown is-boxed">
+          <a class="navbar-item" href="#About">
+            <span class="icon"><i class="fa-solid fa-graduation-cap"></i></span>
+            <span>Trường THPT Nghĩa Minh </span>
+          </a>
+          <a class="navbar-item" target="_blank"
+            href="https://www.facebook.com/p/Tr%C6%B0%E1%BB%9Dng-thpt-Ngh%C4%A9a-Minh-t%E1%BB%89nh-Nam-%C4%90%E1%BB%8Bnh-100067071542227/">
+            <span class="icon"> <i class="fa-brands fa-facebook"></i></span>
+            <span>Facebook Fanpage </span>
+          </a>
+          <a class="navbar-item" href="https://akivn.net" target="_blank">
+            <span class="icon"><i class="fa-solid fa-question-circle"></i></span>
+            <span>Về Web này</span>
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item" href="">
+            <span class="icon"><i class="fa-solid fa-question-circle"></i></span>
+            <span>Chức năng "Tài Nguyên"</span> </a>
+          <a class="navbar-item" href="">
+            <span class="icon"><i class="fa-solid fa-question-circle"></i></span>
+            <span>Chức năng "Sách thư viện"</span> </a>
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <span class="icon">
+            <i class="fa-solid fa-file-word"></i>
+          </span>
+          <span>Văn bản</span>
+        </a>
+        <div class="navbar-dropdown is-boxed is-active">
+          <a class="navbar-item" target=_blank href=""> Bộ GD & ĐT</a>
+          <a class="navbar-item" target=_blank href=""> Sở GD & ĐT</a>
+          <a class="navbar-item" target=_blank href=""> Trường </a>
+        </div>
+      </div>
+
+      <a class="navbar-item" href="/library/">
+        <span class="icon"><i class="fa-solid fa-book"></i></span>
+        <span>Thư viện sách</span>
+      </a>
+      <a class="navbar-item" href="#Section-Pricing">
+        <span class="icon">
+          <i class="fa-solid fa-lines-leaning"></i>
+        </span>
+        <span>Tài nguyên</span>
+      </a>
+      <a class="navbar-item" href="#Section-Pricing">
+        <span class="icon">
+          <i class="fa-regular fa-images"></i>
+        </span>
+        <span>Ảnh</span>
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <span class="icon">
+            <i class="fa-solid fa-square-phone"></i>
+          </span>
+          <span>Liên hệ </span>
+        </a>
+        <div class="navbar-dropdown is-boxed is-active">
+          <a class="navbar-item" href=""> Trường THPT Nghĩa Minh </a>
+          <a class="navbar-item" target=_blank href="https://m.me/lacvietanh"> Website Developer </a>
+          <a class="navbar-item" target=_blank href=""> Phản hồi - Góp ý </a>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-end AUTH">
+      <div class="navbar-item LOGGED0 is-hidden">
+        <div class="field is-grouped">
+          <p class="control">
+            <button class="button is-light" onclick="Auth.login();">Đăng nhập</button>
+            <a class="button is-primary" onclick="Auth.register();">Đăng ký</a>
+          </p>
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable LOGGED1 is-hidden">
+        <a class="navbar-link">
+          <span class="icon mr-3">
+            <i class="fa-solid fa-circle-user fa-2x"></i>
+          </span>
+          <span class="user-fullname"></span>
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="">
+            <span class="icon">
+              <i class="fa-solid fa-user-gear"></i>
+            </span>
+            <span>Edit Profile</span>
+          </a>
+          <button class="navbar-item button is-small m-auto" onclick="Auth.logout();">
+            <span class="icon">
+              <i class="fa-solid fa-power-off"></i>
+            </span>
+            <span>Đăng xuất</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

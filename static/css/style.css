@@ -1,0 +1,6 @@
+html {
+  overflow-y: auto;
+}
+#registerSection {
+  max-width: 1080px;
+}
