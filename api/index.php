@@ -31,7 +31,7 @@ if (isset($_GET['v']))
       break;
     case 'logout':
       session_destroy();
-      echo "Logged out <b>" . $USER['fname'] . " (" . $USER['uname'] . ")</b>";
+      echo "Đã đăng xuất tài khoản <b>" . $USER['fname'] . " (" . $USER['uname'] . ")</b>";
       break;
     case 'test':
       // echo strtotime("+1 year");
@@ -40,6 +40,10 @@ if (isset($_GET['v']))
     case 'register':
       header('Content-Type: text/html; charset=utf-8');
       echo file_get_contents($COREDIR . '../static/html/register.html');
+      break;
+    case 'login':
+      header('Content-Type: text/html; charset=utf-8');
+      echo file_get_contents($COREDIR . '../static/html/login.html');
       break;
     case 'phpinfo':
       header('Content-Type: text/html; charset=utf-8');

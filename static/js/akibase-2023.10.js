@@ -634,30 +634,39 @@ const Auth = {
     }
   },
   login: () => {
-    // POST['login']
-    let uname = prompt('username: ', 'lacvietanh') //test
-    // let uname = prompt('username: ', 'Chỉ chấp nhận ký tự hoa/thường/số/dấu chấm')
-    let pass = prompt('password', 'demopassword')
-    let data = new FormData();
-    data.append("action", 'login');
-    data.append("username", uname);
-    data.append("password", pass);
-    fetch(APIURL, { method: "POST", body: data })
-      .then(r => r.json())
-      .then(j => {
-        // console.log(j); // DEB
-        // console.log('j.debug:', j.debug, 'j.logged:', j.logged) // DEB
-        if (j.logged) {
-          noti.add('LOGIN SUCCESSFULLY!', 3, 'success')
-          Auth.init()
-        } else {
-          noti.add('LOGIN FAILED! Please check Username and Password!', 3, 'danger')
-        }
-      })
+    let f = $id('loginForm') || null
+    if (f) {
+      let uname = f.querySelector('input[name=emailOrUname]').value
+      console.log(uname);
+      let pass = f.querySelector('input[name=password]').value
+      let data = new FormData();
+      data.append("action", 'login');
+      data.append("username", uname);
+      data.append("password", pass);
+      fetch(APIURL, { method: "POST", body: data })
+        .then(r => r.json())
+        .then(j => {
+          // console.log(j); // DEB
+          // console.log('j.debug:', j.debug, 'j.logged:', j.logged) // DEB
+          if (j.logged) {
+            // noti.add('LOGIN SUCCESSFULLY!', 3, 'success')
+            noti.add('Đăng nhập thành công!', 3, 'success')
+            Auth.init()
+            modal.close()
+          } else {
+            noti.add('Đăng nhập thất bại! Hãy kiểm tra lại tài khoản và mật khẩu!', 3, 'danger')
+            // noti.add('LOGIN FAILED! Please check Username and Password!', 3, 'danger')
+          }
+        })
+    } else {
+      noti.add('Lỗi, không có form đăng nhập', 2)
+    }
   },
   logout: () => {
-    fetch(APIURL + "?v=logout").then(r => r.text())
-      .then(t => { noti.add(t, 4, 'info'); Auth.init() })
+    if (Auth.logged) {
+      fetch(APIURL + "?v=logout").then(r => r.text())
+        .then(t => { noti.add(t, 4, 'info'); Auth.init() })
+    }
   }
 }
 

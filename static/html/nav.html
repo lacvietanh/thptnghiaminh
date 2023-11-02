@@ -1,4 +1,4 @@
-<nav class="navbar is-fixed-top is-success">
+<nav class="navbar is-fixed-top is-primary">
   <div class="navbar-brand">
     <a class="navbar-item icon-text" href="/">
       <span class="icon"><i class="fa-solid fa-house"></i></span>
@@ -89,7 +89,7 @@
       <div class="navbar-item LOGGED0 is-hidden">
         <div class="field is-grouped">
           <p class="control">
-            <button class="button is-light" onclick="Auth.login();">Đăng nhập</button>
+            <button class="button is-light" onclick="Auth.logout(); modal.load('/static/html/login.html')">Đăng nhập</button>
             <a class="button is-primary" onclick="Auth.register();">Đăng ký</a>
           </p>
         </div>
