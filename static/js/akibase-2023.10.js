@@ -40,6 +40,7 @@ Latest updated: 2023.10.18
  2023.11.09:
   + add property Auth.regURL
   + If login at regURL, redirect to home page
+  + Reload page after login/logout instead of Auth.init()
 */
 
 function $id(id) { return document.getElementById(id); }
@@ -686,8 +687,7 @@ const Auth = {
             if (location.pathname + location.search == Auth.regURL) {
               location.href = '/#'
             } else {
-              Auth.init()
-              modal.close()
+              setTimeout(() => { location.reload() }, 500)
             }
           } else {
             noti.add(`${j.MESS}`, 3, 'danger')
@@ -700,7 +700,10 @@ const Auth = {
   logout: () => {
     if (Auth.logged) {
       fetch(APIURL + "?v=logout").then(r => r.text())
-        .then(t => { noti.add(t, 4, 'info'); Auth.init() })
+        .then(t => {
+          noti.add(t, 4, 'info');
+          setTimeout(() => { location.reload() }, 900)
+        })
     }
   }
 }
