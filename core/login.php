@@ -19,12 +19,21 @@ while ($row = $tmp->fetchArray(SQLITE3_ASSOC)) {
   $trueUname = $row["username"];
   $truePass = $row['password'];
   $fullName = $row['fullname'];
+  $uAdmin = $row['permission'];
 }
 if ($id) {
   if ($password == $truePass) {
+    // Prevent Session hjacking, change session id for new logged in:
+    unlink($COREDIR . 'session/sess_' . session_id());
+    session_regenerate_id();
     $_SESSION['logged'] =  $USER['logged'] = 1;
     $_SESSION['uname'] = $trueUname;
     $_SESSION['fname'] = $fullName;
+    $_SESSION['admin'] = $USER['admin'] = $uAdmin;
+    // set cookie expired 2 month:
+    setcookie(session_name(), session_id(), time() + 2 * 30 * 24 * 3600);
+    $_SESSION['UA_Logged'] = $_SERVER['HTTP_USER_AGENT'];
+    $USER['ssid'] = session_id();
     $USER['MESS'] .= "Đăng nhập bằng $loginVia Thành công!";
   } else $USER['MESS'] .= "Mật khẩu không đúng!";
 } else {

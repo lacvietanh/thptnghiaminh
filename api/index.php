@@ -10,18 +10,22 @@ header('Access-Control-Allow-Origin: *');
 session_name('ssid');
 session_save_path($COREDIR . 'session');
 session_start();
-setcookie(session_name(), session_id(), 2147483647);
-
 
 $USER['ssid'] = session_id();
-if (isset($_SESSION['logged']) && $_SESSION['logged'] == 1) {
+$USER['UA_Cur'] = $_SERVER['HTTP_USER_AGENT'];
+if ($_SESSION['logged'] == 1 && $USER['UA_Cur'] == $_SESSION['UA_Logged']) {
   $USER['logged'] = 1;
   $USER['uname'] = $_SESSION['uname'];
   $USER['fname'] = $_SESSION['fname'];
+  $USER['admin'] = $_SESSION['admin'];
+} else if ($_SESSION['logged'] == 1 && $USER['UA_Cur'] != $_SESSION['UA_Logged']) {
+  // prevent session hjacking:
+  header('Location: /api?v=logout');
 } else {
   $USER['logged'] = null;
   $USER['uname'] = 'guest';
   $USER['fname'] = 'Khách';
+  $USER['admin'] = 0;
 }
 
 if (isset($_GET['v']))
@@ -30,12 +34,14 @@ if (isset($_GET['v']))
       echo json_encode($USER, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
       break;
     case 'logout':
-      session_destroy();
-      echo "Đã đăng xuất tài khoản <b>" . $USER['fname'] . " (" . $USER['uname'] . ")</b>";
+      include($COREDIR . "logout.php");
+      break;
+    case 'dumpinfo':
+      echo json_encode($_SESSION + $USER, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
       break;
     case 'test':
-      // echo strtotime("+1 year");
-      var_dump($_SESSION);
+      DEBUG_ON();
+      createTable();
       break;
     case 'register':
       header('Content-Type: text/html; charset=utf-8');
@@ -52,9 +58,7 @@ if (isset($_GET['v']))
     case 'cleanupsession':
       $files = glob($COREDIR . 'session/*'); // get all file names
       foreach ($files as $file) { // iterate files
-        if (is_file($file)) {
-          unlink($file); // delete file
-        }
+        if (is_file($file)) unlink($file);
       }
       echo 'cleaned up all session files';
       break;
@@ -77,7 +81,7 @@ elseif (isset($_POST['action'])) {
       include($COREDIR . 'db.php');
       $username = preg_replace("/[^A-Za-z0-9.]/", '', $_POST['username']);
       $tmp = $DB->querySingle("SELECT username FROM users WHERE username='$username';");
-      echo $tmp;
+      $username == "guest" ? print("NOT_ALLOWED") : print($tmp);
       break;
     case 'checkEmailExist':
       include($COREDIR . 'db.php');

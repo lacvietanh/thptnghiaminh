@@ -18,7 +18,7 @@ if ($_POST['email']) {
   } else {
     $tmp = $DB->querySingle("SELECT username FROM users WHERE username='$username';");
     $R['UserName_Exist'] = $tmp;
-    if ($tmp) {
+    if ($tmp || $username == "guest") {
       $R['STATUS'] = 0;
       $R['MESS'] = "UserName <b>$username</b> Đã tồn tại, vui lòng đăng ký UserName khác";
     } else {
