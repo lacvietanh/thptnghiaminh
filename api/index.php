@@ -40,8 +40,10 @@ if (isset($_GET['v']))
       echo json_encode($_SESSION + $USER, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
       break;
     case 'test':
+      include($COREDIR . "fn.php");
       DEBUG_ON();
-      createTable();
+      // WRITE TEST CASE:
+      
       break;
     case 'register':
       header('Content-Type: text/html; charset=utf-8');
@@ -79,16 +81,11 @@ elseif (isset($_POST['action'])) {
       break;
     case 'checkUserName':
       include($COREDIR . 'db.php');
-      $username = preg_replace("/[^A-Za-z0-9.]/", '', $_POST['username']);
-      $tmp = $DB->querySingle("SELECT username FROM users WHERE username='$username';");
-      $username == "guest" ? print("NOT_ALLOWED") : print($tmp);
+      echo $DB->checkUserNameExist(preg_replace("/[^A-Za-z0-9.]/", '', $_POST['username']));
       break;
     case 'checkEmailExist':
       include($COREDIR . 'db.php');
-      $stmt = $DB->prepare("SELECT email FROM users WHERE email=:email");
-      $stmt->bindValue(':email', $_POST['ema'], SQLITE3_TEXT);
-      $tmp = $stmt->execute();
-      echo json_encode($tmp->fetchArray(1));
+      echo $DB->checkEmailExist($_POST['ema']);
       break;
     default:
       echo "POST ACTION ['" . $_POST['action'] . "'] not defined!";
