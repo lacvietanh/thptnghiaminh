@@ -104,46 +104,44 @@
         </p>
       </div>
       <!-- end search option -->
-      <div class="content">
-        <div class="table-container limitHeight mb-0" style="max-height: 500px;">
-          <table id="LibraryTable"
-            class="table sortable is-fullwidth is-narrow is-hoverable is-size-7">
-            <thead class="has-background-warning">
-              <tr>
-                <th>STT</th>
-                <th>ID sách</th>
-                <th style="min-width: 4em;">Tên Sách</th>
-                <th>Thể loại</th>
-                <th>Tổng SL</th>
-                <th>Sẵn có</th>
-                <th>Đơn giá</th>
-                <th>Ảnh bìa sách</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>001</td>
-                <td>A001</td>
-                <td>Vật Lý 10</td>
-                <td>Sách Giáo Khoa</td>
-                <td>35</td>
-                <td>24</td>
-                <td>70.000đ</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>002</td>
-                <td>B001</td>
-                <td>Lý Thuyết Vạn Vật</td>
-                <td>Sách Tham Khảo</td>
-                <td>2</td>
-                <td>2</td>
-                <td>55.000đ</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="table-container limitHeight mb-0" style="max-height: 500px;">
+        <table id="LibraryTable"
+          class="table sortable is-fullwidth is-narrow is-hoverable is-size-7">
+          <thead class="has-background-warning counter parent">
+            <tr>
+              <th>#</th>
+              <th>Mã sách</th>
+              <th style="min-width: 4em;">Tên Sách</th>
+              <th class="AUTH">Mã loại</th>
+              <th class="AUTH">Năm nhập kho</th>
+              <th>Tổng SL</th>
+              <th>Sẵn có</th>
+              <th>Đơn giá</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="counter child"></td>
+              <td>HOA01</td>
+              <td>ôn luvên trac nghiệm thi töt nghiệp THPT näm 2019 KHTN</td>
+              <td>HoH</td>
+              <td>2019</td>
+              <td>3</td>
+              <td>2</td>
+              <td>70.000đ</td>
+            </tr>
+            <tr>
+              <td class="counter child"></td>
+              <td>HOA02</td>
+              <td>Hóa Học 10 - Kết nối</td>
+              <td>HoH</td>
+              <td>2019</td>
+              <td>3</td>
+              <td>2</td>
+              <td>20.000đ</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div id="Manage-body" class="is-hidden container">
@@ -153,7 +151,6 @@
       </p>
       <div class="content">
         <div class="container box" style="height: 300px;"></div>
-
       </div>
     </div>
     <div id="Terms-body" class="is-hidden container">

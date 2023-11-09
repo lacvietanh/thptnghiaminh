@@ -160,6 +160,13 @@ body::-webkit-scrollbar-button {
   }
 }
 /* GLOBAL */
+.counter.parent {
+  counter-reset: countVar;
+}
+.counter.child::after {
+  counter-increment: countVar;
+  content: counter(countVar);
+}
 .w-25p {
   width: 25%;
 }

@@ -106,9 +106,10 @@ const postRegister = async () => {
       1: { mess: 'thành công', bulmaClass: 'success' }
     }
     noti.add(`
-        Đăng ký tài khoản <b>${t.secured_UserName}</b> ${tmp[t.STATUS]['mess']}
-        <br>(${t.MESS})`, 15, tmp[t.STATUS]['bulmaClass'])
-    // if (t.STATUS) modal.push(`<pre>${JSON.stringify(t, '', 2)}</pre>`)
+      Đăng ký tài khoản <b>${t.secured_UserName}</b> ${tmp[t.STATUS]['mess']}
+        <br>(${t.MESS})
+      `, 15, tmp[t.STATUS]['bulmaClass'])
+    modal.load('/static/html/login.html')
   }
 }
 addEventListener('authload', () => {
