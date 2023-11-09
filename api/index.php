@@ -30,20 +30,20 @@ if ($_SESSION['logged'] == 1 && $USER['UA_Cur'] == $_SESSION['UA_Logged']) {
 
 if (isset($_GET['v']))
   switch ($_GET['v']) {
+    case 'test':
+      include($COREDIR . "fn.php");
+      DEBUG_ON();
+      // WRITE TEST CASE:
+
+      break;
+    case 'dumpinfo':
+      echo json_encode($_SESSION + $USER, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+      break;
     case 'auth':
       echo json_encode($USER, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
       break;
     case 'logout':
       include($COREDIR . "logout.php");
-      break;
-    case 'dumpinfo':
-      echo json_encode($_SESSION + $USER, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-      break;
-    case 'test':
-      include($COREDIR . "fn.php");
-      DEBUG_ON();
-      // WRITE TEST CASE:
-      
       break;
     case 'register':
       header('Content-Type: text/html; charset=utf-8');
@@ -59,10 +59,15 @@ if (isset($_GET['v']))
       break;
     case 'cleanupsession':
       $files = glob($COREDIR . 'session/*'); // get all file names
-      foreach ($files as $file) { // iterate files
+      foreach ($files as $file) {
         if (is_file($file)) unlink($file);
       }
       echo 'cleaned up all session files';
+      break;
+      // ###### Web Defined API:
+    case 'listUsers':
+      include($COREDIR . 'db.php');
+      echo $DB->listUsers($USER['admin']);
       break;
     default:
       echo $_GET['v'] . " not defined!";

@@ -46,8 +46,7 @@ class AkiDB extends SQLite3 {
     if ($n == "guest") return "NOT_ALLOWED";
     else {
       $tmp = $this->querySingle("SELECT username FROM users WHERE username='$n';");
-      if ($tmp) return "EXIST!";
-      else return "";
+      return $tmp;
     }
   }
   public function checkEmailExist($e) {
@@ -55,6 +54,16 @@ class AkiDB extends SQLite3 {
     $stmt->bindValue(':email', $e, SQLITE3_TEXT);
     $tmp = $stmt->execute();
     return json_encode($tmp->fetchArray(1));
+  }
+  public function listUsers($admin) {
+    if ($admin) $q = "SELECT * from users ;";
+    else $q = "SELECT fullname, classroom, phone, joined, fbid, birthday from users ;";
+    $out = [];
+    $tmp = $this->query($q);
+    while ($row = $tmp->fetchArray(1)) {
+      array_push($out, $row);
+    }
+    return json_encode($out);
   }
 }
 

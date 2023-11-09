@@ -45,6 +45,7 @@
   <link rel="stylesheet" type="text/css" href="/static/css/style.css">
   <script src="/static/js/akibase-2023.10.js"></script>
   <script src="/static/js/main.js?r=1"></script>
+  <script src="/static/js/sorttable.js" defer></script>
 </head>
 
 <body class="has-navbar-fixed-top has-background-light">
@@ -112,18 +113,16 @@
             <div class="table-container limitHeight mb-0" style="max-height: 500px;">
               <table id="LibraryTable"
                 class="table sortable is-fullwidth is-narrow is-hoverable is-size-7">
-                <thead class="has-background-warning counter parent AUTH">
-                  <th>#</th>
-                  <th>Họ Và Tên</th>
-                  <th>Lớp</th>
-                  <th>SĐT</th>
-                  <th>Ngày tham gia</th>
-                  <th>Fbid</th>
-                  <th>Ngày sinh</th>
-                  <th class="LOGGED0">UserName</th>
-                  <th class="LOGGED0">Email</th>
-                  <th class="LOGGED0">Địa chỉ</th>
-                  <th class="LOGGED0">Sửa</th>
+                <thead class="has-background-warning counter parent AUTH counter parent">
+                  <tr>
+                    <th>#</th>
+                    <th>Họ Và Tên</th>
+                    <th>Lớp</th>
+                    <th>SĐT</th>
+                    <th>Ngày tham gia</th>
+                    <th>Fbid</th>
+                    <th>Ngày sinh</th>
+                  </tr>
                 </thead>
                 <tbody>
                 </tbody>
