@@ -37,6 +37,9 @@ Latest updated: 2023.10.18
   + Login FrontEnd done // use modal.load(login.html) and Auth.login()
   + Remove Accents for "UserName or Email Login Field" before Post
   + Fix akiFn to class, fix akiFn.latinify
+ 2023.11.09:
+  + add property Auth.regURL
+  + If login at regURL, redirect to home page
 */
 
 function $id(id) { return document.getElementById(id); }
@@ -618,18 +621,27 @@ class slideshow {
   }
 }
 const Auth = {
+  regURL: "/api/?v=register",
   logged: undefined,
   uname: undefined,
   fname: undefined,
   init: () => {
     var AuthEle = $qs('.AUTH') || null
-    if (AuthEle)
+    if (AuthEle) {
+      let uNameEle = $qs('.AUTH .user-fullname');
       fetch(APIURL + "?v=auth")
         .then(r => r.json())
         .then(j => {
           // console.log(j) // DEB
-          // noti.add(`Hello ${j.fname}(${j.uname})`, 2, 'warning')
-          $qs('.AUTH .user-fullname').innerHTML = j.fname;
+          noti.add(`Hello ${j.fname}(${j.uname})`, 1, 'warning')
+          uNameEle.innerHTML = j.fname;
+          if (j.admin) {
+            uNameEle.classList.add('has-text-warning')
+            uNameEle.title = "Tài khoản có quyền Admin"
+          } else {
+            uNameEle.classList.remove('has-text-warning')
+            uNameEle.title = "Tài khoản thường"
+          }
           Auth.logged = j.logged; Auth.uname = j.uname; Auth.fname = j.fname
           if (j.logged) {
             // Change UI to LOGGED USER:
@@ -642,8 +654,11 @@ const Auth = {
           }
           window.dispatchEvent(new Event('authload'))
         })
+    } else {
+      console.warn('No AUTH class found!');
+    }
   },
-  register: (regURL = "/api/?v=register#") => {
+  register: (regURL = Auth.regURL) => {
     if (Auth.logged) Auth.logout()
     else {
       if (location.pathname + location.search != regURL) {
@@ -666,11 +681,14 @@ const Auth = {
         .then(r => r.json())
         .then(j => {
           // console.log(j); // DEB
-          // console.log('j.debug:', j.debug, 'j.logged:', j.logged) // DEB
           if (j.logged) {
             noti.add(`Đăng nhập thành công!<br>${j.MESS}`, 3, 'success')
-            Auth.init()
-            modal.close()
+            if (location.pathname + location.search == Auth.regURL) {
+              location.href = '/#'
+            } else {
+              Auth.init()
+              modal.close()
+            }
           } else {
             noti.add(`${j.MESS}`, 3, 'danger')
           }
