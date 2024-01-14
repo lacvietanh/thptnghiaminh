@@ -1,4 +1,4 @@
-_dev/*
+_dev/sources/*
 core/session
 core/cache
 .DS_Store

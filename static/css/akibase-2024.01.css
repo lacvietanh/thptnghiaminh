@@ -1,27 +1,45 @@
 /* 
-2023.06 NOTE: 
-
+2023.12:
+  remove all body::-webkit**
+  add: .footer.is-dark
+  add: .footer.is-black
+  add: pre.code
+  fix: redDot position
+  add: navbar span.hideOnMobile hiden when width < 425px
+  add: pre#NAV_USER_NOTE
+  add: NAV_USER_BALANCE
+  add: table-container.limitHeight
+  add: webkit-scrollbar
+  add: footer maxW 2560 mar auto
+  add: textarea.textarea
+2024.01:
+  fix: notification.show: fix animation apear
+  add: html: overflow-y: auto
 */
+::-webkit-scrollbar-button {
+  height: 0;
+  width: 0;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(109 109 109 / 56%);
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
 :root {
   --mint: #e3f6f1;
+  scrollbar-color: transparent transparent;
 }
 html {
   scroll-behavior: smooth;
-}
-body::-webkit-scrollbar {
-  background-color: #fff;
-  width: 16px;
-}
-body::-webkit-scrollbar-track {
-  background-color: #fff;
-}
-body::-webkit-scrollbar-thumb {
-  background-color: #babac0;
-  border-radius: 16px;
-  border: 4px solid #fff;
-}
-body::-webkit-scrollbar-button {
-  display: none;
+  overflow-y: auto;
 }
 /* FX */
 @-webkit-keyframes fx-clear-fade {
@@ -144,6 +162,9 @@ body::-webkit-scrollbar-button {
   .uploadArea {
     padding: 30px 5px !important;
   }
+  .navbar a.navbar-item span.hideOnMobile {
+    display: none;
+  }
 }
 @media screen and (max-width: 1024px) {
   .navbar-dropdown .is-active {
@@ -223,6 +244,10 @@ body::-webkit-scrollbar-button {
 table.sortable th:not(.DONT_SORTABLE) {
   cursor: pointer;
 }
+.table-container.limitHeight {
+  max-height: 500px;
+  overflow-y: auto;
+}
 th {
   position: sticky;
   box-shadow: #000 0 0 3px;
@@ -269,7 +294,7 @@ th {
   color: #fff;
 }
 .uploadArea::after {
-  content: "Kéo thả file vào đây hoặc bấm để chọn file";
+  content: "KÃ©o tháº£ file vÃ o Ä‘Ã¢y hoáº·c báº¥m Ä‘á»ƒ chá»n file";
   color: #fff;
   text-align: center;
   margin-top: 1rem;
@@ -312,8 +337,9 @@ nav.is-mint,
   max-height: 400px;
   overflow: hidden;
   box-sizing: border-box;
-  transform: translateY(-20px);
-  transition: all 0.1s;
+  transform: translateY(90vh);
+  transition: all 200ms cubic-bezier(0.590, 0.255, 0.265, 1.560);
+  transition-timing-function: cubic-bezier(0.590, 0.255, 0.265, 1.560);
 }
 .notification.show {
   transform: translateY(0);
@@ -321,8 +347,32 @@ nav.is-mint,
 .notification:hover {
   opacity: 1;
 }
+footer {
+  max-width: 100%;
+  margin: auto;
+}
+.footer.is-dark {
+  background: #0c0c0c;
+}
+.footer.is-black {
+  background: #000;
+}
+textarea.textarea {
+  min-height: 4.5em !important;
+}
 /* END FIX BULMA  */
 /* START ELEMENTS  */
+pre.code {
+  background: #000;
+  color: #28ff12;
+}
+#NAV_USER_BALANCE {
+  font-weight: bold;
+  color: goldenrod;
+}
+pre#NAV_USER_NOTE {
+  white-space: pre-wrap;
+}
 .navbar-item.redDot::after {
   content: '';
   width: 8px;
@@ -330,8 +380,8 @@ nav.is-mint,
   background: red;
   border-radius: 100%;
   position: absolute;
-  top: 17px;
-  right: 12px;
+  top: 11px;
+  left: 26px;
 }
 #ModalNode div.loadingContainer {
   display: flex;

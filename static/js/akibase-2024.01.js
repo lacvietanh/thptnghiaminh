@@ -1,81 +1,76 @@
 /*
 AkiBase Javascript Library
 Usage: BULMA css Library + akibase-2023.10.css, put inside head tag, no async, no defer.
-Features:
-- Element Fetch
-- Countdown Redirect
-- SlideShow
-- Notifications
-- Modal
-- Bulma Tabs, Nav.. interactive
-- DragDrop,..
-- Auth
-- FieldCheck UI (make field outline and right icon Success or Danger)
-Copyrights @ Lac Viet Anh, 2023. MIT License.
-Latest updated: 2023.10.18
- - Add conditional for notification registration prevent error on http protocol
- 2023.10.18: 
-  + Fix Noti innerHTML => createElement
-  + Fix Noti Animation => Appear from top, remove if animationEnd name "fx-clear-fade"
-  + NEW FEATURE: AUTH. 
-    HTML class AUTH -> LOGGED0/LOGGED1
-    JS Object Auth (init/login/register/logout)
-  + Fix Auth.init after "navload" event
- 2023.10.20:
-  + Add Event "authload" after Auth.init()
- 2023.10.21:
-  + UI.fieldCheck UI (make field outline and right icon Success or Danger)
- 2023.10.21:
-  + Fix Auth.register() loop load: split by location.pathname+location.search
- 2023.10.23: 
-  + Add UI.makeCheck: for add/remove bulmaClass danger/success
-  + Fix UI.makeCheck + UI.fieldCheck: ADD RETURN VALUE (true/false)
- 2023.10.27:
-  + Write comment for UI.makeCheck and UI.fieldCheck
-  + Add UI.initFooter: dynamic load footer like navbar
- 2023.11.02:
-  + Login FrontEnd done // use modal.load(login.html) and Auth.login()
-  + Remove Accents for "UserName or Email Login Field" before Post
-  + Fix akiFn to class, fix akiFn.latinify
- 2023.11.09:
-  + add property Auth.regURL
-  + If login at regURL, redirect to home page
-  + Reload page after login/logout instead of Auth.init()
+https://github.com/lacvietanh/cloud.akivn.net/edit/main/README.md
+### 2023.12.18:
+- Move  UI.initDropDown() and UI.initNewTabClass() INTO the end of UI.initNav()
+### 2023.12.19:
+- 14:32: Add notification id, fix Notification{tag} to that id
+### 2023.12.22:
+- 16:00: change modal.load from innerHTML to append (style tag work!)
+- add HTMLElement prototype bmShow/bmHide (classList.add/remove "is-hidden")
+- add Function: humanReadbleSize
+### 2023.12.23:
+- 21:25: Add dispatchEvent 'navload' when nav already in this html page
+### 2023.12.27:
+- 07:22: fix navload eventListener syntax
+- 13:55: optimize text for Fetch, loader
+- 15:11: loader.FetchRun() NOW CAN EXECUTE SCRIPT INSIDE TARGET HTML FILE
+- 15:15: modal.load fix: use loader.FetchRun => can execute script inside
+- 16:55: rename akiFn to AkiFn
+- 16:56: add AkiFn: toNonAccentVietnamese, AkiFixFileName
+- 16:58: add AkiFn: hanziNeat (remove chinese punctuation)
+- 18:07: rename AkiFixFileName to "fixFileName. Improve regex, make it keep number + latin + chinese + vn(to Latin)
+### 2023.12.28
+- 12:48 BUG FIX: fetchme: (notScript) will not recursively
+
+## 2024
+### 2024.01.04
+- 00:16: modal.push: button => small, box classList + p-2, rename "type" = "box_or_mess"
+### 2024.01.06
+- 12:22 noti.add: fix animation apear
+### 2024.01.11
+- 08:20 initNav then initFooter then dispatchEvent 'navload' 
 */
 
-function $id(id) { return document.getElementById(id); }
-function $qsa(s) { return document.querySelectorAll(s); }
-function $qs(s) { return document.querySelector(s); }
-function setHTML(id, _html) { $id(id).innerHTML = _html }
+HTMLElement.prototype.bmShow = function () { this.classList.remove('is-hidden') }
+HTMLElement.prototype.bmHide = function () { this.classList.add('is-hidden') }
+HTMLButtonElement.prototype.addloading = function () { this.classList.add('is-loading') }
+HTMLButtonElement.prototype.removeloading = function () { this.classList.remove('is-loading') }
 Boolean.prototype.toOnOff = function () {
   let r, v = this.valueOf()
   v ? r = 'ON' : r = 'OFF'
   return r
 }
-
-function Fetch($url, $element) {
-  var $url, $id, $obj;
-  let e = $element;
-  fetch($url)
-    .then(response => {
-      if (response.status == 404) {
-        e.innerHTML = "err";
-      } else {
-        response.text()
-          .then(data => { e.innerHTML = data; })
-      }
-    })
-    .catch(function (err) {
-      console.log('Failed to fetch page: ', err);
-    });
+function $id(id) { return document.getElementById(id); }
+function $qsa(s) { return document.querySelectorAll(s); }
+function $qs(s) { return document.querySelector(s); }
+function setHTML(id, _html) { $id(id).innerHTML = _html }
+function humanReadableSize(bytes, si = false, dp = 1) {
+  const thresh = si ? 1000 : 1024;
+  if (Math.abs(bytes) < thresh) return bytes + ' B'
+  let u = -1; const r = 10 ** dp;
+  const units = si
+    ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+    : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  do { bytes /= thresh; ++u; }
+  while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
+  return bytes.toFixed(dp) + ' ' + units[u];
 }
-class akiFn {
-  static newCompactWindow(u = location.href, w = 500, h = 309) {
+function Fetch(u, e) {
+  fetch(u)
+    .then(r => {
+      if (r.status == 404) e.innerHTML = "err";
+      else r.text().then(data => { e.innerHTML = data; })
+    }).catch(er => console.log('Fetch Failed: ', er));
+}
+const AkiFn = {
+  newCompactWindow(u = location.href, w = 500, h = 309) {
     window.open(u, "_blank", `
     menubar=no,scrollbars=yes,location=no,toolbar=no,width=${w},height=${h}
     `)
   }
-  static randomStr(length) {
+  , randomStr(length) {
     var result = '';
     var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var l = c.length;
@@ -84,7 +79,7 @@ class akiFn {
     }
     return result;
   }
-  static removeAccents(x) {
+  , removeAccents(x) {
     var s, t;
     s = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçỳýỷỹỵ";
     t = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
@@ -92,13 +87,13 @@ class akiFn {
       x = x.replace(RegExp(s[i], "gi"), t[i]);
     } return x;
   }
-  static latinity(str) {
-    var y = akiFn.removeAccents(str).toLowerCase()
+  , latinity(str) {
+    var y = AkiFn.removeAccents(str).toLowerCase()
       .replace(/[^a-z0-9\-]/g, ' ')
       .replace(/-+/g, ' ').trim();
     return y;
   }
-  static parseCookie() {
+  , parseCookie() {
     return document.cookie
       .split(';')
       .map(v => v.split('='))
@@ -107,23 +102,46 @@ class akiFn {
         return acc;
       }, {});
   }
-}
-function removeAccents(x) {
-  var from = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçỳýỷỹỵ",
-    to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
-  for (var i = 0, l = from.length; i < l; i++) {
-    x = x.replace(RegExp(from[i], "gi"), to[i]);
+  , toNonAccentVietnamese(str) {
+    str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/E|É|È|Ẽ|Ẹ|Ê|Ế|Ề|Ễ|Ệ/, "E");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/I|Í|Ì|Ĩ|Ị/g, "I");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/O|Ó|Ò|Õ|Ọ|Ô|Ố|Ồ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ỡ|Ợ/g, "O");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/U|Ú|Ù|Ũ|Ụ|Ư|Ứ|Ừ|Ữ|Ự/g, "U");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/Y|Ý|Ỳ|Ỹ|Ỵ/g, "Y");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/Đ/g, "D");
+    str = str.replace(/đ/g, "d");
+    // Some system encode vietnamese combining accent as individual utf-8 characters
+    str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // Huyền sắc hỏi ngã nặng 
+    str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
+    return str;
   }
-  return x;
+  , fixFileName(str, splitExt = false) {
+    // Fun Fact: Thuật toán xử lý file name này ông Lạc Việt Anh đã cố gắng tìm kiếm và suy nghĩ suốt 3 năm nay mới làm được :V
+    function run(s) {
+      return AkiFn.toNonAccentVietnamese(s)
+        .match(/\p{Script=Han}+|\p{Script=Latin}+|[a-zA-Z0-9-]+/gu).join(" ")
+    }
+    if (splitExt) {
+      var parts = str.split('.');
+      var f = str.replace(/\.[^/.]+$/, "") // fileName without Ext
+      var e = parts[parts.length - 1]; // Ext
+      return `${run(f)}.${e}`;
+    } else return run(str)
+  }
+  , hanziNeat(str) {
+    return str.split('').filter(c => /\p{Script=Han}/u.test(c)).join('')
+  }
 }
-function latinConvert(str) {
-  y = removeAccents(str).toLowerCase().trim()
-    .replace(/[^a-z0-9\-]/g, '_')
-    .replace(/-+/g, '_');
-  return y;
-}
+
 class loader {
-  //<element class="fetchme" data-url="$url" data-s="$second" data-inf="$second|0">
+  // <element class="fetchme" data-inf="$second|0">
   static loadingSpin
     = '<div class=loadingContainer><span class="loader is-loading is-inline-block"></span></div>';
   static init() {
@@ -131,9 +149,34 @@ class loader {
       e.innerHTML = this.loadingSpin;
       let url = e.dataset.url, inf;
       (e.dataset.inf) ? inf = e.dataset.inf : inf = false;
-      setTimeout(() => { Fetch(url, e) }, 100);
-      inf ? setInterval(() => { Fetch(url, e) }, inf * 1000) : null;
+      // console.log(e,url,inf); // DEB 
+      setTimeout(() => { this.FetchRun(url, e) }, 100);
+      inf ? setInterval(() => { this.FetchRun(url, e) }, inf * 1000) : null;
     });
+  }
+  static FetchRun(u, e) {
+    fetch(u).then(r => {
+      if (r.status == 404) e.innerHTML = "err404";
+      else {
+        r.text().then(t => {
+          var p = new DOMParser();
+          var doc = p.parseFromString(t, "text/html")
+          var ns = doc.body.childNodes
+          var s = doc.body.querySelectorAll('script')
+          e.innerHTML = '' // remove loadingspin
+          ns.forEach(tag => {
+            if (tag.tagName.toLowerCase() != "script") e.append(tag)
+            else {
+            }
+          })
+          s.forEach(scr => {
+            let x = document.createElement('script');
+            x.innerHTML = scr.innerHTML;
+            e.appendChild(x);
+          })
+        })
+      }
+    }).catch(er => console.log(er))
   }
 }
 class CDR {
@@ -187,27 +230,27 @@ class modal {
   `;
   static footer = /*html*/`
     <div class="m-auto w-fit p-1">
-    <button id=modalBtnSubmit class="button is-medium is-primary"></button>
+    <button id=modalBtnSubmit class="button is-small is-primary"></button>
     </div>
   `;
-  static push(node = '', type = 'box', opt = { tit: '', col: '', btFunc: '', btName: '' }) {
+  static push(node = '', box_or_mess = 'box', opt = { tit: '', col: '', btFunc: '', btName: '' }) {
     $id('MainModal').innerHTML = modal.pre;
     let title, color, btnCb, btnName
     title = opt.tit || 'Message'
     color = opt.col || 'dark'
     btnCb = opt.btFunc || modal.close
     btnName = opt.btName || 'OK'
-    let html, mess = /*html*/`
+    let html, mess = `
       <div class="message is-${color}">
         <div class="message-header">
           <p> ${title} </p>
           <button class="delete" aria-label="delete" onclick="modal.close()"></button>
         </div>
-        <div class="message-body"> ${node} </div>
+        <div class="message-body p-2"> ${node} </div>
       </div>
     `;
-    if (type == 'box') { html = node; $id('ModalNode').classList.add('box'); };
-    if (type == 'mess') { html = mess; }
+    if (box_or_mess == 'box') { html = node; $id('ModalNode').classList.add('box', 'p-2'); };
+    if (box_or_mess == 'mess') { html = mess; }
     $id('ModalNode').innerHTML = html + modal.footer;
     $id('modalBtnSubmit').innerHTML = btnName;
     $id('modalBtnSubmit').addEventListener('click', btnCb);
@@ -220,20 +263,7 @@ class modal {
     e.classList.add('box');
     $id('MainModal').classList.add("is-active", "fadefx");
     e.innerHTML = loader.loadingSpin;
-    fetch(url)
-      .then(response => {
-        if (response.status == 404) {
-          e.innerHTML = "err404";
-        } else {
-          response.text().then(data => {
-            // let d = document.createElement('div')
-            e.innerHTML = data
-            // e.appendChild(d)
-          })
-        }
-      }).catch(function (err) {
-        console.log('Failed to fetch page: ', err);
-      });
+    loader.FetchRun(url, e);
   }
   static close() {
     $id('MainModal').classList.remove("is-active", "fadefx");
@@ -245,6 +275,7 @@ class modal {
         e.addEventListener('click', (e) => { e.stopPropagation(); modal.close(); });
       });
   }
+  static help() { console.log(this) }
 }
 class tabs {
   static init() {
@@ -293,8 +324,6 @@ class UI {
   static init() {
     tabs.init()
     UI.initNav()
-    UI.initFooter()
-    UI.initDropDown()
     UI.initDrag()
     UI.initNotification()
     UI.initZoomableImg()
@@ -325,6 +354,22 @@ class UI {
     })
   }
   static initNav() {
+    function _init() {
+      var current_href = $qs(`nav a[href="${location.pathname}"]`) || null
+      if (current_href) current_href.classList.add('is-active')
+      // Make Bulma Burger Menu Interactive:
+      const navBurger = $qs(".navbar-burger") || null
+      const navMenu = $qs(".navbar-menu") || null
+      if (navBurger && navMenu) {
+        navBurger.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          navBurger.classList.toggle("is-active");
+          navMenu.classList.toggle("is-active");
+        })
+      }
+      UI.initDropDown()
+      UI.initFooter()
+    }
     if (!$qs('nav.navbar')) {
       fetch('/static/html/nav.html').then(r => r.text())
         .then(t => {
@@ -332,20 +377,10 @@ class UI {
           var nav = parser.parseFromString(t, "text/html");
           nav = nav.querySelector('nav')
           document.body.insertBefore(nav, document.body.firstChild);
-          window.dispatchEvent(new Event('navload'))
-          var current_href = $qs(`nav a[href="${location.pathname}"]`) || null
-          if (current_href) current_href.classList.add('is-active')
-          // Make Bulma Burger Menu Interactive:
-          const navBurger = $qs(".navbar-burger") || null
-          const navMenu = $qs(".navbar-menu") || null
-          if (navBurger && navMenu) {
-            navBurger.addEventListener("click", (ev) => {
-              ev.stopPropagation();
-              navBurger.classList.toggle("is-active");
-              navMenu.classList.toggle("is-active");
-            })
-          }
+          _init()
         }).catch(e => console.log(e))
+    } else {
+      _init()
     }
   }
   static initFooter() {
@@ -356,7 +391,10 @@ class UI {
           var z = parser.parseFromString(t, "text/html");
           var f = z.querySelector('footer')
           document.body.appendChild(f)
+          window.dispatchEvent(new Event('navload'))
         }).catch(e => console.log(e))
+    } else {
+      window.dispatchEvent(new Event('navload'))
     }
   }
   static initDropDown() {
@@ -426,7 +464,7 @@ class UI {
     }
   }
   static initNotification() {
-    if (location.protocol == "https") {
+    if (location.protocol == "https:") {
       navigator.serviceWorker.register('/static/js/sw_noti.js?r').then((registration) => {
         Notification.requestPermission((result) => {
           if (result === 'granted') {
@@ -445,7 +483,7 @@ class UI {
         })
       })
     } else {
-      // console.warn("Notification register failed because protocol is not https");
+      console.warn("Notification register failed because protocol is not https");
     }
   }
   static fieldCheck(inpEle, stat = 0 | 1) {
@@ -522,12 +560,10 @@ class noti {
       ev.stopPropagation(); fx.clear(`noti_${id}`)
     })
     pe.appendChild(noti)
-    setTimeout(() => {
-      noti.classList.add('show')
-      noti.addEventListener('animationend', (ev) => {
-        if (ev.animationName == "fx-clear-fade") noti.remove()
-      })
-    }, 5)
+    noti.addEventListener('animationend', (ev) => {
+      if (ev.animationName == "fx-clear-fade") noti.remove()
+    })
+    setTimeout(() => { noti.classList.add('show') }, 100);
     //prepare auto remove:
     setTimeout(() => fx.clear(`noti_${id}`), t);
   }
@@ -621,7 +657,7 @@ class slideshow {
 
   }
 }
-const Auth = {
+const AkiAuth = {
   regURL: "/api/?v=register",
   logged: undefined,
   uname: undefined,
@@ -643,7 +679,7 @@ const Auth = {
             uNameEle.classList.remove('has-text-warning')
             uNameEle.title = "Tài khoản thường"
           }
-          Auth.logged = j.logged; Auth.uname = j.uname; Auth.fname = j.fname
+          AkiAuth.logged = j.logged; AkiAuth.uname = j.uname; AkiAuth.fname = j.fname
           if (j.logged) {
             // Change UI to LOGGED USER:
             $qsa('.AUTH .LOGGED0').forEach(e => { e.classList.add('is-hidden') })
@@ -654,13 +690,13 @@ const Auth = {
             $qsa('.AUTH .LOGGED1').forEach(e => { e.classList.add('is-hidden') })
           }
           window.dispatchEvent(new Event('authload'))
-        })
+        }).catch(e => { console.log(e); })
     } else {
       console.warn('No AUTH class found!');
     }
   },
-  register: (regURL = Auth.regURL) => {
-    if (Auth.logged) Auth.logout()
+  register: (regURL = AkiAuth.regURL) => {
+    if (AkiAuth.logged) AkiAuth.logout()
     else {
       if (location.pathname + location.search != regURL) {
         location.href = regURL
@@ -684,7 +720,7 @@ const Auth = {
           // console.log(j); // DEB
           if (j.logged) {
             noti.add(`Đăng nhập thành công!<br>${j.MESS}`, 3, 'success')
-            if (location.pathname + location.search == Auth.regURL) {
+            if (location.pathname + location.search == AkiAuth.regURL) {
               location.href = '/#'
             } else {
               setTimeout(() => { location.reload() }, 500)
@@ -698,7 +734,7 @@ const Auth = {
     }
   },
   logout: () => {
-    if (Auth.logged) {
+    if (AkiAuth.logged) {
       fetch(APIURL + "?v=logout").then(r => r.text())
         .then(t => {
           noti.add(t, 4, 'info');
@@ -745,6 +781,9 @@ function checkCompatibility() {
     }
   }
 }
+// addEventListener('navload', () => {
+//   AkiAuth.init();
+// }, { once: true })
 
 addEventListener('DOMContentLoaded', () => {
   checkCompatibility();
@@ -754,7 +793,6 @@ addEventListener('DOMContentLoaded', () => {
   loader.init();
   KeyCommand.init();
   CDR.run();
-  addEventListener('navload', () => Auth.init(), { once: true })
 });
 
 addEventListener('load', () => {
