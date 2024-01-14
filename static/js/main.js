@@ -14,7 +14,7 @@ const home = {
       ;
     fetch(APIURL + '?v=listUsers').then(r => r.json()).then(j => {
       if (j) {
-        console.log(j) // deb
+        // console.log(j) // deb
         let keys = (Object.keys(j[0]).length) // deb
         if (keys > 6) { //admin
           thead.innerHTML += `
@@ -63,7 +63,9 @@ const home = {
     })
   }
 }
-addEventListener('load', () => {
+addEventListener('navload', () => {
+  AkiAuth.init()
+
   if (location.pathname == '/') {
     home.loadUser();
     $qs('#tabs-1 li#Members').click()

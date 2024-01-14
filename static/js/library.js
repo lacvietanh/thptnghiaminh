@@ -55,7 +55,7 @@ addEventListener('DOMContentLoaded', () => {
 
 })
 addEventListener('authload', () => {
-  if (Auth.logged) {
+  if (AkiAuth.logged) {
     $id('ManageLibrary').classList.remove('is-hidden')
     $qsa('#admin_manageLib_form input').forEach(e => {
       e.required = true;

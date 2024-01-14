@@ -1,0 +1,4 @@
+Mon 16 Oct 09:38
+ - Thay đổi hết các tên file/thư mục chứa tiếng Việt (có dấu) thành không dấu
+ - Cần báo cáo lại việc "Lưu ý các tên file tiếng việt có dấu"
+ 

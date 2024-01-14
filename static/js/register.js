@@ -113,7 +113,7 @@ const postRegister = async () => {
   }
 }
 addEventListener('authload', () => {
-  Auth.register();
+  AkiAuth.register();
 })
 addEventListener('DOMContentLoaded', () => {
   // AutoSet Birthday Year to 16 years ago:
