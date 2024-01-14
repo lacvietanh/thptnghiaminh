@@ -69,6 +69,10 @@ if (isset($_GET['v']))
       include($COREDIR . 'db.php');
       echo $DB->listUsers($USER['admin']);
       break;
+    case 'listLibrary':
+      include($COREDIR . 'db.php');
+      echo $DB->listLibrary();
+      break;
     default:
       echo $_GET['v'] . " not defined!";
       break;
@@ -91,6 +95,9 @@ elseif (isset($_POST['action'])) {
     case 'checkEmailExist':
       include($COREDIR . 'db.php');
       echo $DB->checkEmailExist($_POST['ema']);
+      break;
+    case 'UpdateLibraryData':
+      include($COREDIR . 'library.php');
       break;
     default:
       echo "POST ACTION ['" . $_POST['action'] . "'] not defined!";

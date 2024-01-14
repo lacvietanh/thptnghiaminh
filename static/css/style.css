@@ -4,3 +4,6 @@ html {
 #registerSection {
   max-width: 1080px;
 }
+table#LibraryCartTable th{
+  background-color: unset;
+}

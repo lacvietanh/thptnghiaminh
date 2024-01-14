@@ -21,7 +21,7 @@ class AkiDB extends SQLite3 {
     $this->exec('CREATE TABLE IF NOT EXISTS library (
       bid CHAR(5) PRIMARY KEY NOT NULL UNIQUE,
       bname         CHAR(40) NOT NULL,
-      categroyCode  CHAR(4) NOT NULL,
+      categoryCode  CHAR(4) NOT NULL,
       inyear        INT(4) NOT NULL,
       quantity      INT(5) DEFAULT (0),
       available     INT(5),
@@ -58,6 +58,15 @@ class AkiDB extends SQLite3 {
   public function listUsers($admin) {
     if ($admin) $q = "SELECT * from users ;";
     else $q = "SELECT fullname, classroom, phone, joined, fbid, birthday from users ;";
+    $out = [];
+    $tmp = $this->query($q);
+    while ($row = $tmp->fetchArray(1)) {
+      array_push($out, $row);
+    }
+    return json_encode($out);
+  }
+  public function listLibrary() {
+    $q = "SELECT * from library ;";
     $out = [];
     $tmp = $this->query($q);
     while ($row = $tmp->fetchArray(1)) {

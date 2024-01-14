@@ -36,8 +36,8 @@ const home = {
               <td>${e.email}</td>
               <td>${e.address}</td>
               <td>
-                <button class="button is-small">
-                  <i class="fa-solid fa-pen-to-square"></i>
+                <button class="button is-small is-success p-1">
+                  <i class="fa-solid fa-pen-to-square fa-2x"></i>
                 </button>
               </td>
             </tr>`;
