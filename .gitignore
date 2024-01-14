@@ -2,4 +2,5 @@ _dev/*
 core/session
 core/cache
 .DS_Store
+._.*
 thptnghiaminh.code-workspace
